@@ -1,54 +1,101 @@
-window.addEventListener("load", ()=> {
-    const display = document.querySelector(".visor");
-    const teclado = document.getElementsByClassName("tecladobotones");
 
-    const tecladoArray = Array.from(teclado);
+//venta insumos veterinaria
+//declaro algunos productos
+const productos = [
+    { producto:1, nombre: "1- Proplan adulto SB", precio: 1500, unidades: 50 },
+    { producto:2, nombre: "2- Astro adulto LB", precio: 1400, unidades: 20 },
+    { producto:3, nombre: "3- Monello cachorro SB", precio: 1300, unidades: 50 },
+    { producto:4, nombre: "4- Matisse cachorro LB", precio: 1300, unidades: 40 },
+    { producto:5, nombre: "5- Pelota de goma", precio: 1000, unidades: 20 },
+    { producto:6, nombre: "6- Gramas ", precio: 100, unidades: 30 },
+    { producto:7 ,nombre: "7- Bandeja sanitaria", precio: 280, unidades: 50 },
+    { producto:8, nombre: "8- Nexgard 10 a 25 kg", precio: 580, unidades: 60 },
+ 
+];
 
-    tecladoArray.forEach( (button) => {
-       button.addEventListener("click", ()=> {
-        console.log(button.innerHTML);
-        calculadora(button, display);
-       })
-    })
+let carrito = []
 
-});
+let menu = prompt("Bienvenido a nuestra VETERINARIA, desea comprar algun producto?")
 
 
-function calculadora(button, display) {
-    switch (button.innerHTML) {
-        case "=":
-            calcular(display);
+while (menu == "No"){
+    alert("Gracias por su visita!")
+    break;
+}
+
+
+
+
+if (menu == "Si"){
+    alert("Productos disponibles en nuestra WEB")
+    let todoslosproductos = productos.map((productos) => productos.nombre + " " +  
+    productos.precio + "$  " + productos.unidades + " unidades " );
+    alert(todoslosproductos.join("\n"))
+
+}
+
+// si eleije comprar productos 
+
+
+while (menu != "No"){
+  let productos = prompt("Ingrese el producto seleccionado")
+  let precio = 0
+
+  if (productos <= 8){
+    switch (productos){
+        case "1":    
+        precio =  1500;
             break;
-
-        case "C":
-            borrar(display);
+        case "2":
+            precio = 1400;
             break;
-
+        case "3": 
+        precio = 1300;
+            break;
+        case "4": 
+        precio = 1300;
+            break;
+        case "5": 
+        precio = 1000;
+            break;
+        case "6":      
+        precio = 100;
+            break;
+        case "7":
+            precio = 280;       
+            break;
+        case "8":     
+        precio = 580;
+            break;
         default:
-            actualizar(display, button);
-            break;
-
+            break
     }
+     
+        let unidades = parseInt(prompt("Ingrese las unidades  a comprar"))
 
-}
-
-
-function calcular(display) {
-    display.innerHTML = eval(display.innerHTML)
-}
-
-
-function actualizar(display, button) {
-    if (display.innerHTML == 0) {
-        display.innerHTML = "";
+        carrito.push({ productos, precio, unidades})
+        console.log(carrito)
+    } else {
+        alert("Producto no disponible")
     }
+     
+// si desea comprar otro producto
+    menu = prompt("Desea ingresar otro producto? ")
 
-    display.innerHTML += button.innerHTML;
+     while (menu === "No"){
+        alert("Gracias por su compra")
+        
+        carrito.forEach((carritoFinal) => {
+            console.log(`productos: ${carritoFinal.productos}, precio: ${carritoFinal.precio}, unidades: ${carritoFinal.unidades}, 
+            total a pagar ${carritoFinal.unidades * carritoFinal.precio}`)
+        })
+        break;
+    
+}
 
 }
 
 
-function borrar(display) {
-    display.innerHTML = 0;
-}
-
+//mostrar el total de la compra
+const total = carrito.reduce((acc, el) => acc + el.precio * el.unidades, 0)
+console.log (alert(`El total de su compra es : $ ${total}`))
